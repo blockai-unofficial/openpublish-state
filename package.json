@@ -1,0 +1,35 @@
+{
+  "name": "openpublish-state",
+  "version": "0.0.1",
+  "description": "Request information about the state of Open Publish documents.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blockai/openpublish-state.git"
+  },
+  "keywords": [
+    "bitcoin",
+    "openpublish",
+    "blockchain",
+    "register"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blockai/openpublish-state/issues"
+  },
+  "homepage": "https://github.com/blockai/openpublish-state#readme",
+  "devDependencies": {
+    "tape": "^4.0.1"
+  },
+  "dependencies": {
+    "browser-request": "^0.3.3",
+    "request": "^2.60.0"
+  },
+  "browser": {
+    "request": "browser-request"
+  }
+}
