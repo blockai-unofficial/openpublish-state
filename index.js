@@ -52,7 +52,8 @@ var OpenpublishState = function(baseOptions) {
 
   var findAllByType = function(options, callback) {
     var type = options.type;
-    request(baseUrl + "/opendocs?limit=100&type=" + type, function(err, res, body) {
+    var limit = options.limit || 20;
+    request(baseUrl + "/opendocs?limit=" + limit + "&type=" + type, function(err, res, body) {
       var openpublishDocuments = JSON.parse(body);
       openpublishDocuments.forEach(processOpenpublishDoc);
       callback(err, openpublishDocuments);
@@ -60,7 +61,8 @@ var OpenpublishState = function(baseOptions) {
   };
 
   var findAll = function(options, callback) {
-    request(baseUrl + "/opendocs?limit=100", function(err, res, body) {
+    var limit = options.limit || 20;
+    request(baseUrl + "/opendocs?limit=" + limit, function(err, res, body) {
       var openpublishDocuments = JSON.parse(body);
       openpublishDocuments.forEach(processOpenpublishDoc);
       callback(err, openpublishDocuments);

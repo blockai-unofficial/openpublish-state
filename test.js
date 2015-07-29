@@ -92,10 +92,19 @@ test('should find all documents that have been registered with Open Publish', fu
 
 });
 
-test('should find all images that have been registered with Open Publish', function(t) {
+test('should find only 3 documents that have been registered with Open Publish', function(t) {
 
-  openpublishState.findAllByType({type:'image'}, function(err, openpublishDocuments) {
-    t.ok(openpublishDocuments.length > 0, 'has some documents');
+  openpublishState.findAll({limit: 3}, function(err, openpublishDocuments) {
+    t.ok(openpublishDocuments.length === 3, 'has 3 documents');
+    t.end();
+  });
+
+});
+
+test('should find 10 images that have been registered with Open Publish', function(t) {
+
+  openpublishState.findAllByType({type:'image', limit: 2}, function(err, openpublishDocuments) {
+    t.ok(openpublishDocuments.length === 2, 'has 2 documents');
     var openpublishDoc = openpublishDocuments[0];
     t.ok(openpublishDoc.txid, 'txid');
     t.ok(openpublishDoc.sourceAddresses[0], 'sourceAddresses');
