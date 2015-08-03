@@ -77,6 +77,36 @@ test('should not find the tips for a document with a sha1 of XXX', function(t) {
 
 });
 
+
+test('should find all open tips', function (t) {
+  openpublishState.findAllTips({},
+    function(err, tips) {
+      t.ok(!err, 'err is false');
+      t.ok(tips.length > 0, "at least found some open tips");
+      t.ok(tips[0].tx_out_hash !== null, "txid of tip is not null");
+      t.ok(tips[0].sha1 !== null, "sha1 of tip is not null");
+      t.end();
+    }
+  );
+});
+
+test('should find all open tips', function (t) {
+  openpublishState.findAssetsByUser({address: "mjf6CRReqGSyvbgryjE3fbGjptRRfAL7cg"},
+    function(err, assets) {
+      t.ok(!err, 'err is false');
+      t.ok(assets.posts.length > 0, "found some posts at this address");
+      console.log(assets.addres)
+      t.ok(assets.address === "mjf6CRReqGSyvbgryjE3fbGjptRRfAL7cg", "we are getting the assets of the address we queried for");
+      var keys = [];
+      for(var key in assets.tips) {
+        keys.push(key);
+      } 
+      t.ok(keys.length > 0 !== null, "address has recieved some tips on its posts");
+      t.end();
+    }
+  );
+});
+
 test('should find all documents that have been registered with Open Publish', function(t) {
 
   openpublishState.findAll({}, function(err, openpublishDocuments) {
