@@ -28,6 +28,13 @@ var OpenpublishState = function(baseOptions) {
     });
   };
 
+  var findAllTips = function(callback) {
+    request(baseUrl + "/opentips", function(err, resp, body) {
+      var opentips = JSON.parse(body);
+      callback(false, opentips)
+    });
+  }
+
   var findDoc = function(options, callback) {
     var sha1 = options.sha1;
     request(baseUrl + "/opendocs/sha1/" + sha1, function(err, res, body) {
@@ -73,6 +80,7 @@ var OpenpublishState = function(baseOptions) {
     findDoc: findDoc,
     findTips: findTips,
     findAll: findAll,
+    findAllTips: findAllTips,
     findAllByType: findAllByType
   }
 
