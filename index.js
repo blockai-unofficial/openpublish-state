@@ -4,6 +4,7 @@ var OpenpublishState = function(baseOptions) {
 
   var network = baseOptions.network;
   var baseUrl = baseOptions.baseUrl || network == "testnet" ? "http://testnet.d.blockai.com" : "http://livenet.d.blockai.com";
+  var coinvoteBaseUrl = (network === "testnet") ? "http://coinvote-testnet.herokuapp.com" : "http://coinvote.herokuapp.com";
 
   var processOpenpublishDoc = function(doc) {
     doc.txid = doc.txid || doc.txout_tx_hash;
@@ -28,7 +29,7 @@ var OpenpublishState = function(baseOptions) {
     });
   };
 
-  var findAllTips = function(callback) {
+  var findAllTips = function(options, callback) {
     request(baseUrl + "/opentips", function(err, resp, body) {
       var opentips = JSON.parse(body);
       callback(false, opentips)
@@ -67,6 +68,14 @@ var OpenpublishState = function(baseOptions) {
     });
   };
 
+  var findAssetsByUser = function(options, callback) {
+    var address = options.address;
+    request(coinvoteBaseUrl + "/getPosts/user?address=" + address, function(err, res, body){
+      var assestsJson = JSON.parse(body);
+      callback(err, assestsJson)
+    });
+  }
+
   var findAll = function(options, callback) {
     var limit = options.limit || 20;
     request(baseUrl + "/opendocs?limit=" + limit, function(err, res, body) {
@@ -81,6 +90,7 @@ var OpenpublishState = function(baseOptions) {
     findTips: findTips,
     findAll: findAll,
     findAllTips: findAllTips,
+    findAssetsByUser: findAssetsByUser,
     findAllByType: findAllByType
   }
 
