@@ -62,9 +62,14 @@ var OpenpublishState = function(baseOptions) {
     var type = options.type;
     var limit = options.limit || 20;
     request(baseUrl + "/opendocs?limit=" + limit + "&type=" + type, function(err, res, body) {
-      var openpublishDocuments = JSON.parse(body);
-      openpublishDocuments.forEach(processOpenpublishDoc);
-      callback(err, openpublishDocuments);
+      try {
+        var openpublishDocuments = JSON.parse(body);
+        openpublishDocuments.forEach(processOpenpublishDoc);
+        callback(err, openpublishDocuments);
+      }
+      catch (e) {
+        callback(true, []);
+      }
     });
   };
 
