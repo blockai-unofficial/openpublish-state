@@ -76,8 +76,16 @@ var OpenpublishState = function(baseOptions) {
   var findAssetsByUser = function(options, callback) {
     var address = options.address;
     request(coinvoteBaseUrl + "/getPosts/user?address=" + address, function(err, res, body){
-      var assestsJson = JSON.parse(body);
-      callback(err, assestsJson)
+      var assetsJson = JSON.parse(body);
+      callback(err, assetsJson)
+    });
+  }
+
+  var findTipsByUser = function(options, callback) {
+    var address = options.address;
+    request(coinvoteBaseUrl + "/getTips?user=" + address, function (err, res, body) {
+      var tipsJson = JSON.parse(body);
+      callback(err, tipsJson)
     });
   }
 
@@ -96,6 +104,7 @@ var OpenpublishState = function(baseOptions) {
     findAll: findAll,
     findAllTips: findAllTips,
     findAssetsByUser: findAssetsByUser,
+    findTipsByUser: findTipsByUser,
     findAllByType: findAllByType
   }
 
