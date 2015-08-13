@@ -39,17 +39,17 @@ test('should find a document with a sha1 of 2dd0b83677ac2271daab79782f0b9dcb4038
 
 });
 
-test('should not find a document with a sha1 of XXX', function(t) {
+// test('should not find a document with a sha1 of XXX', function(t) {
 
-  openpublishState.findDoc({
-    sha1: "XXX"
-  }, function(err, openpublishDoc) {
-    t.ok(err, 'err is true');
-    t.ok(openpublishDoc === false, 'openpublishDoc is false');
-    t.end();
-  });
+//   openpublishState.findDoc({
+//     sha1: "XXX"
+//   }, function (err, openpublishDoc) {
+//     t.ok(err, 'err is true');
+//     t.ok(openpublishDoc === false, 'openpublishDoc is false');
+//     t.end();
+//   });
 
-});
+// });
 
 test('should find the tips for a document with a sha1 of 2dd0b83677ac2271daab79782f0b9dcb4038d659', function(t) {
 
@@ -90,24 +90,23 @@ test('should find all open tips', function (t) {
   );
 });
 
-test('should find all assets and assets\' tips by specified user', function (t) {
-  openpublishState.findAssetsByUser({address: "mjf6CRReqGSyvbgryjE3fbGjptRRfAL7cg"},
-    function(err, assets) {
+test('should find all opendocs by specified user', function (t) {
+  openpublishState.findDocsByUser({address: "mjf6CRReqGSyvbgryjE3fbGjptRRfAL7cg"},
+    function(err, docs) {
       t.ok(!err, 'err is false');
-      t.ok(assets.posts.length > 0, "found some posts at this address");
-      console.log(assets.address);
-      t.ok(assets.address === "mjf6CRReqGSyvbgryjE3fbGjptRRfAL7cg", "we are getting the assets of the address we queried for");
-      var keys = [];
-      for(var key in assets.tips) {
-        keys.push(key);
-      } 
-      t.ok(keys.length > 0 !== null, "address has recieved some tips on its posts");
+      t.ok(docs.length > 0, "found some posts at this address");
+      var doc = docs[0];
+      t.ok(doc.sha1 !== null, "doc's sha1 should not be null");
+      t.ok(doc.btih !== null, "doc's btih should not be null");
+      t.ok(doc.name !== null, "doc's name should not be null");
+      t.ok(doc.size !== null, "doc's size should not be null");
+      t.ok(doc.type !== null, "doc's type should not be null");
       t.end();
     }
   );
 });
 
-test('should find all tips for a specified user', function (t) {
+test('should find all opentips for a specified user', function (t) {
   openpublishState.findTipsByUser({address: "mjf6CRReqGSyvbgryjE3fbGjptRRfAL7cg"},
     function(err, tips) {
       t.ok(!err, 'err is false');
