@@ -39,7 +39,7 @@ var OpenpublishState = function(baseOptions) {
   var findDoc = function(options, callback) {
     var sha1 = options.sha1;
     request(baseUrl + "/opendocs/sha1/" + sha1, function(err, res, body) {
-      var openpublishDoc = JSON.parse(body)[0];
+      var openpublishDoc = JSON.parse(body);
       if (!openpublishDoc) {
         return callback(true, false);
       }
@@ -73,17 +73,17 @@ var OpenpublishState = function(baseOptions) {
     });
   };
 
-  var findAssetsByUser = function(options, callback) {
+  var findDocsByUser = function (options, callback) {
     var address = options.address;
-    request(coinvoteBaseUrl + "/getPosts/user?address=" + address, function(err, res, body){
+    request(baseUrl + "/addresses/" + address + "/opendocs", function (err, res, body) {
       var assetsJson = JSON.parse(body);
       callback(err, assetsJson)
     });
   }
 
-  var findTipsByUser = function(options, callback) {
+  var findTipsByUser = function (options, callback) {
     var address = options.address;
-    request(coinvoteBaseUrl + "/getTips?user=" + address, function (err, res, body) {
+    request(baseUrl + "/addresses/" + address + "/opentips", function (err, res, body) {
       var tipsJson = JSON.parse(body);
       callback(err, tipsJson)
     });
@@ -103,7 +103,7 @@ var OpenpublishState = function(baseOptions) {
     findTips: findTips,
     findAll: findAll,
     findAllTips: findAllTips,
-    findAssetsByUser: findAssetsByUser,
+    findDocsByUser: findDocsByUser,
     findTipsByUser: findTipsByUser,
     findAllByType: findAllByType
   }
