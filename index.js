@@ -76,7 +76,22 @@ var OpenpublishState = function(baseOptions) {
     var address = options.address;
     request(baseUrl + "/addresses/" + address + "/opendocs", function (err, res, body) {
       var assetsJson = JSON.parse(body);
-      callback(err, assetsJson)
+      if (options.includeTips) {
+        var i = 0;
+        assetsJson.forEach(function (asset) {
+          findTips({ sha1: asset.sha1 }, function (err, tipInfo) {
+            asset.totalTipAmount = tipInfo.totalTipAmount;
+            asset.tipCount = tipInfo.tipCount;
+            asset.tips = tipInfo.tips;
+            if (++i === assetsJson.length) {
+              callback(err, assetsJson);
+            }
+          });
+        });
+      }
+      else {
+        callback(err, assetsJson);
+      }
     });
   }
 
