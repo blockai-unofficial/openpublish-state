@@ -9,7 +9,7 @@ test('should find a document with a sha1 of 2dd0b83677ac2271daab79782f0b9dcb4038
   openpublishState.findDoc({
     sha1: "2dd0b83677ac2271daab79782f0b9dcb4038d659"
   }, function(err, openpublishDoc) {
-    t.equal(openpublishDoc.txid, '2587d9a8662afb37fc32bfdb4914c2d08a134fd709cb7a84db08a22ca578dedf', 'txid');
+    t.equal(openpublishDoc.output.tx_hash, '2587d9a8662afb37fc32bfdb4914c2d08a134fd709cb7a84db08a22ca578dedf', 'txid');
     t.equal(openpublishDoc.sourceAddresses[0], 'msLoJikUfxbc2U5UhRSjc2svusBSqMdqxZ', 'sourceAddresses');
     t.equal(openpublishDoc.name, 'ega_art_detail.gif', 'name');
     t.equal(openpublishDoc.btih, '9028e4200b976662d11159c2b16a6c12ef83d967', 'btih');
@@ -26,7 +26,7 @@ test('should find a document with a sha1 of 2dd0b83677ac2271daab79782f0b9dcb4038
     sha1: "2dd0b83677ac2271daab79782f0b9dcb4038d659",
     includeTips: true
   }, function(err, openpublishDoc) {
-    t.equal(openpublishDoc.txid, '2587d9a8662afb37fc32bfdb4914c2d08a134fd709cb7a84db08a22ca578dedf', 'txid');
+    t.equal(openpublishDoc.output.tx_hash, '2587d9a8662afb37fc32bfdb4914c2d08a134fd709cb7a84db08a22ca578dedf', 'txid');
     t.equal(openpublishDoc.sourceAddresses[0], 'msLoJikUfxbc2U5UhRSjc2svusBSqMdqxZ', 'sourceAddresses');
     t.equal(openpublishDoc.name, 'ega_art_detail.gif', 'name');
     t.equal(openpublishDoc.btih, '9028e4200b976662d11159c2b16a6c12ef83d967', 'btih');
@@ -121,7 +121,7 @@ test('should find all documents that have been registered with Open Publish', fu
   openpublishState.findAll({}, function(err, openpublishDocuments) {
     t.ok(openpublishDocuments.length > 0, 'has some documents');
     var openpublishDoc = openpublishDocuments[0];
-    t.ok(openpublishDoc.txid, 'txid');
+    t.ok(openpublishDoc.output.tx_hash, 'txid');
     t.ok(openpublishDoc.sourceAddresses[0], 'sourceAddresses');
     t.ok(openpublishDoc.name, 'name');
     t.ok(openpublishDoc.btih, 'btih');
@@ -145,7 +145,7 @@ test('should find 10 images that have been registered with Open Publish', functi
   openpublishState.findAllByType({type:'image', limit: 2}, function(err, openpublishDocuments) {
     t.ok(openpublishDocuments.length === 2, 'has 2 documents');
     var openpublishDoc = openpublishDocuments[0];
-    t.ok(openpublishDoc.txid, 'txid');
+    t.ok(openpublishDoc.output.tx_hash, 'txid');
     t.ok(openpublishDoc.sourceAddresses[0], 'sourceAddresses');
     t.ok(openpublishDoc.name, 'name');
     t.ok(openpublishDoc.btih, 'btih');

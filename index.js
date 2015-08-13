@@ -38,9 +38,7 @@ var OpenpublishState = function(baseOptions) {
 
   var findDoc = function(options, callback) {
     var sha1 = options.sha1;
-    var address = baseUrl + "/opendocs/sha1/" + sha1;
-    console.log(address);
-    request(address, function(err, res, body) {
+    request(baseUrl + "/opendocs/sha1/" + sha1, function(err, res, body) {
       var openpublishDoc = JSON.parse(body);
       if (!openpublishDoc) {
         return callback(true, false);
