@@ -90,18 +90,28 @@ test('should find all open tips', function (t) {
   );
 });
 
-test('should find all open tips', function (t) {
+test('should find all assets and assets\' tips by specified user', function (t) {
   openpublishState.findAssetsByUser({address: "mjf6CRReqGSyvbgryjE3fbGjptRRfAL7cg"},
     function(err, assets) {
       t.ok(!err, 'err is false');
       t.ok(assets.posts.length > 0, "found some posts at this address");
-      console.log(assets.addres)
+      console.log(assets.address);
       t.ok(assets.address === "mjf6CRReqGSyvbgryjE3fbGjptRRfAL7cg", "we are getting the assets of the address we queried for");
       var keys = [];
       for(var key in assets.tips) {
         keys.push(key);
       } 
       t.ok(keys.length > 0 !== null, "address has recieved some tips on its posts");
+      t.end();
+    }
+  );
+});
+
+test('should find all tips for a specified user', function (t) {
+  openpublishState.findTipsByUser({address: "mjf6CRReqGSyvbgryjE3fbGjptRRfAL7cg"},
+    function(err, tips) {
+      t.ok(!err, 'err is false');
+      t.ok(tips.length > 0, "found some posts at this address");
       t.end();
     }
   );
