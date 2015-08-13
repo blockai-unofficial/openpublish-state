@@ -4,7 +4,6 @@ var OpenpublishState = function(baseOptions) {
 
   var network = baseOptions.network;
   var baseUrl = baseOptions.baseUrl || network == "testnet" ? "https://bsync-test.blockai.com" : "https://bsync.blockai.com";
-  var coinvoteBaseUrl = (network === "testnet") ? "http://coinvote-testnet.herokuapp.com" : "http://coinvote.herokuapp.com";
 
   var processOpenpublishDoc = function(doc) {
     doc.txid = doc.txid || doc.txout_tx_hash;
