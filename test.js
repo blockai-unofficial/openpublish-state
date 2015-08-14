@@ -92,7 +92,7 @@ test('should find all open tips', function (t) {
 
 test('should find all opendocs by specified user', function (t) {
   openpublishState.findDocsByUser({address: "mjf6CRReqGSyvbgryjE3fbGjptRRfAL7cg"},
-    function(err, docs) {
+    function (err, docs) {
       t.ok(!err, 'err is false');
       t.ok(docs.length > 0, "found some posts at this address");
       var doc = docs[0];
@@ -104,6 +104,26 @@ test('should find all opendocs by specified user', function (t) {
       t.end();
     }
   );
+});
+
+test('should find all opendocs and opendocs\' tips by specified user', function (t) {
+  openpublishState.findDocsByUser({
+    address: "mjf6CRReqGSyvbgryjE3fbGjptRRfAL7cg",
+    includeTips: true
+  }, function (err, docs) {
+    t.ok(!err, 'err is false');
+    t.ok(docs.length > 0, "found some posts at this address");
+    var doc = docs[0];
+    t.ok(doc.sha1 !== null, "doc's sha1 should not be null");
+    t.ok(doc.btih !== null, "doc's btih should not be null");
+    t.ok(doc.name !== null, "doc's name should not be null");
+    t.ok(doc.size !== null, "doc's size should not be null");
+    t.ok(doc.type !== null, "doc's type should not be null");
+    t.ok(doc.tipCount >= 0, 'tipCount');
+    t.ok(doc.totalTipAmount >= 0, 'totalTipAmount');
+    t.ok(doc.tips.length >= 0, 'tips');
+    t.end();
+  });
 });
 
 test('should find all opentips for a specified user', function (t) {
