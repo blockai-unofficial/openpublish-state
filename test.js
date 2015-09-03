@@ -1,7 +1,8 @@
 var test = require('tape');
 
 var openpublishState = require('./')({
-  network: "testnet"
+  network: "testnet",
+  minConfirms: -1
 });
 
 test('should find a document with a sha1 of 2dd0b83677ac2271daab79782f0b9dcb4038d659', function(t) {

@@ -1,9 +1,26 @@
 var request = require('request');
+var url = require('url');
 
 var OpenpublishState = function(baseOptions) {
 
   var network = baseOptions.network;
+  var host = baseOptions.host || network == "testnet" ? "bsync-test.blockai.com" : "bsync.blockai.com";
   var baseUrl = baseOptions.baseUrl || network == "testnet" ? "https://bsync-test.blockai.com" : "https://bsync.blockai.com";
+
+  var buildUrl = function(pathname, query) {
+    if (typeof(baseOptions.minConfirms) === "number") {
+      if (!query) {
+        query = {};
+      }
+      query.minConfirms = baseOptions.minConfirms;
+    }
+    return url.format({
+      protocol: "https",
+      host: host,
+      pathname: pathname,
+      query: query
+    });
+  }
 
   var processOpenpublishDoc = function(doc) {
     doc.txid = doc.txid || doc.txout_tx_hash;
@@ -12,7 +29,8 @@ var OpenpublishState = function(baseOptions) {
 
   var findTips = function(options, callback) {
     var sha1 = options.sha1;
-    request(baseUrl + "/opendocs/sha1/" + sha1 + "/tips", function(err, res, body) {
+
+    request(buildUrl("/opendocs/sha1/" + sha1 + "/tips"), function(err, res, body) {
       var tips = JSON.parse(body);
       var totalTipAmount = 0;
       var tipCount = tips.length;
@@ -29,7 +47,7 @@ var OpenpublishState = function(baseOptions) {
   };
 
   var findAllTips = function(options, callback) {
-    request(baseUrl + "/opentips", function(err, resp, body) {
+    request(buildUrl("/opentips"), function(err, resp, body) {
       var opentips = JSON.parse(body);
       callback(false, opentips)
     });
@@ -37,7 +55,7 @@ var OpenpublishState = function(baseOptions) {
 
   var findDoc = function(options, callback) {
     var sha1 = options.sha1;
-    request(baseUrl + "/opendocs/sha1/" + sha1, function(err, res, body) {
+    request(buildUrl("/opendocs/sha1/" + sha1), function(err, res, body) {
       var openpublishDoc = JSON.parse(body);
       if (!openpublishDoc) {
         return callback(true, false);
@@ -59,8 +77,8 @@ var OpenpublishState = function(baseOptions) {
 
   var findAllByType = function(options, callback) {
     var type = options.type;
-    var limit = options.limit || 20;
-    request(baseUrl + "/opendocs?limit=" + limit + "&type=" + type, function(err, res, body) {
+    options.limit == options.limit || 20;
+    request(buildUrl("/opendocs", options), function(err, res, body) {
       try {
         var openpublishDocuments = JSON.parse(body);
         openpublishDocuments.forEach(processOpenpublishDoc);
@@ -74,7 +92,7 @@ var OpenpublishState = function(baseOptions) {
 
   var findDocsByUser = function (options, callback) {
     var address = options.address;
-    request(baseUrl + "/addresses/" + address + "/opendocs", function (err, res, body) {
+    request(buildUrl("/addresses/" + address + "/opendocs"), function (err, res, body) {
       var assetsJson = JSON.parse(body);
       if (options.includeTips) {
         var i = 0;
@@ -97,15 +115,15 @@ var OpenpublishState = function(baseOptions) {
 
   var findTipsByUser = function (options, callback) {
     var address = options.address;
-    request(baseUrl + "/addresses/" + address + "/opentips", function (err, res, body) {
+    request(buildUrl("/addresses/" + address + "/opentips"), function (err, res, body) {
       var tipsJson = JSON.parse(body);
       callback(err, tipsJson)
     });
   }
 
   var findAll = function(options, callback) {
-    var limit = options.limit || 20;
-    request(baseUrl + "/opendocs?limit=" + limit, function(err, res, body) {
+    options.limit = options.limit || 20;
+    request(buildUrl("/opendocs", options), function(err, res, body) {
       var openpublishDocuments = JSON.parse(body);
       openpublishDocuments.forEach(processOpenpublishDoc);
       callback(err, openpublishDocuments);
