@@ -7,8 +7,6 @@ This module is a client-side library for performing queries on Open Published do
 
 A ```user``` in the context of Open Publish is a Bitcoin wallet address such as the tesnet address ```mqMsBiNtGJdwdhKr12TqyRNE7RTvEeAkaR```.
 
-Should we call this ```author``` or ```owner``` instead?
-
 ## Install
 
 ```npm install openpublish-state```
