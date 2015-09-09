@@ -176,12 +176,18 @@ test('should find 10 images that have been registered with Open Publish', functi
 
 });
 
-test('should find the transfers for a document with a sha1 of 805624cde66fb66b9b763b63a47428de3b259be3', function(t) {
+test('should find the transfers for a document with a sha1 of 724c0e92a180844cb4dd69903e58f173ac6de682', function(t) {
 
   openpublishState.findTransfers({
-    sha1: "805624cde66fb66b9b763b63a47428de3b259be3",
+    sha1: "724c0e92a180844cb4dd69903e58f173ac6de682",
   }, function(err, transfers) {
     t.ok(transfers.length > 0, 'transfers.length');
+    t.equal(transfers[0].opendoc_sha1, "724c0e92a180844cb4dd69903e58f173ac6de682", "opendoc_sha1");
+    t.equal(transfers[0].from, "msLoJikUfxbc2U5UhRSjc2svusBSqMdqxZ", "from");
+    t.equal(transfers[0].to, "mwaj74EideMcpe4cjieuPFpqacmpjtKSk1", "to");
+    t.equal(transfers[0].value, 50000000, "value");
+    t.equal(transfers[0].btc_value, 12345, "btc_value");
+    t.equal(transfers[0].ttl, 365, "ttl");
     t.end();
   });
 
