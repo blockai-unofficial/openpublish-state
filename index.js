@@ -27,6 +27,14 @@ var OpenpublishState = function(baseOptions) {
     return doc;
   };
 
+  var findTransfers = function(options, callback) {
+    var sha1 = options.sha1;
+    request(buildUrl("/opendocs/sha1/" + sha1 + "/transfers"), function(err, res, body) {
+      var transfers = JSON.parse(body);
+      callback(err, transfers)
+    });
+  };
+
   var findTips = function(options, callback) {
     var sha1 = options.sha1;
 
@@ -137,7 +145,8 @@ var OpenpublishState = function(baseOptions) {
     findAllTips: findAllTips,
     findDocsByUser: findDocsByUser,
     findTipsByUser: findTipsByUser,
-    findAllByType: findAllByType
+    findAllByType: findAllByType,
+    findTransfers: findTransfers
   }
 
 };
