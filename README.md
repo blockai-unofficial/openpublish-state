@@ -1,11 +1,13 @@
 # openpublish-state
-Request information about the state of [Open Publish](https://github.com/blockai/openpublish) documents.
+Request information about the state of [Open Publish](https://github.com/blockai/openpublish) documents and ownership.
 
 ## About
 
 This module is a client-side library for performing queries on Open Published documents. 
 
 A ```user``` in the context of Open Publish is a Bitcoin wallet address such as the tesnet address ```mqMsBiNtGJdwdhKr12TqyRNE7RTvEeAkaR```.
+
+Should we call this ```author``` or ```owner``` instead?
 
 ## Install
 
@@ -63,5 +65,32 @@ openpublishState.findAllByType({type: "image", limit: 10}, function(err, openpub
 ```js
 openpublishState.findAllByUser({address: "mqMsBiNtGJdwdhKr12TqyRNE7RTvEeAkaR"}, function(err, openpublishDocs) {
   // returns all docs published by mqMsBiNtGJdwdhKr12TqyRNE7RTvEeAkaR
+});
+```
+### Find tips
+
+```js
+openpublishState.findTips({sha1: "f072bf66cd807c48e37170137b6f8bd3dc01963e"}, function(err, tipInfo) {
+  // tipInfo looks like:
+  {
+    tips: [{
+      "opendoc_sha1": "f072bf66cd807c48e37170137b6f8bd3dc01963e",
+      "destination": "{\"mqMsBiNtGJdwdhKr12TqyRNE7RTvEeAkaR\"}",
+      "amount": 10000,
+      "created_at": "2015-08-17T20:40:30.457Z",
+      "updated_at": "2015-08-17T20:40:30.456Z",
+      "output": {
+        "tx_hash": "398244834976e88870e364935189d0d92031d22543338d46f8141af22bf36ab8",
+        "position": 1,
+        "height": 531011,
+        "branch": "main"
+      },
+      "sourceAddresses": [
+        "mqMsBiNtGJdwdhKr12TqyRNE7RTvEeAkaR"
+      ]
+    }, ...],
+    totalTipAmount: 20000,
+    tipCount: 2
+  }
 });
 ```
