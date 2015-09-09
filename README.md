@@ -63,7 +63,7 @@ openpublishState.findAllByType({type: "image", limit: 10}, function(err, openpub
 ### Find all documents published by a user
 
 ```js
-openpublishState.findAllByUser({address: "mqMsBiNtGJdwdhKr12TqyRNE7RTvEeAkaR"}, function(err, openpublishDocs) {
+openpublishState.findDocsByUser({address: "mqMsBiNtGJdwdhKr12TqyRNE7RTvEeAkaR"}, function(err, openpublishDocs) {
   // returns all docs published by mqMsBiNtGJdwdhKr12TqyRNE7RTvEeAkaR
 });
 ```
