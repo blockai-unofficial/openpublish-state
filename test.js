@@ -175,3 +175,15 @@ test('should find 10 images that have been registered with Open Publish', functi
   });
 
 });
+
+test('should find the transfers for a document with a sha1 of 805624cde66fb66b9b763b63a47428de3b259be3', function(t) {
+
+  openpublishState.findTransfers({
+    sha1: "805624cde66fb66b9b763b63a47428de3b259be3",
+  }, function(err, transfers) {
+    t.ok(transfers.length > 0, 'transfers.length');
+    t.end();
+  });
+
+});
+
