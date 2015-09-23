@@ -4,8 +4,18 @@ var url = require('url');
 var OpenpublishState = function(baseOptions) {
 
   var network = baseOptions.network;
-  var host = baseOptions.host || network == "testnet" ? "bsync-test.blockai.com" : "bsync.blockai.com";
-  var baseUrl = baseOptions.baseUrl || network == "testnet" ? "https://bsync-test.blockai.com" : "https://bsync.blockai.com";
+  var baseUrl = baseOptions.baseUrl;
+
+  var host, protocol;
+  if (baseUrl) {
+    var parsedBaseUrl = url.parse(baseUrl);
+    host = parsedBaseUrl.host;
+    protocol = parsedBaseUrl.protocol;
+  }
+  else {
+    protocol = baseOptions.protocol || "https:";
+    host = baseOptions.host || network == "testnet" ? "bsync-test.blockai.com" : "bsync.blockai.com";
+  }
 
   var buildUrl = function(pathname, query) {
     if (typeof(baseOptions.minConfirms) === "number") {
@@ -14,25 +24,18 @@ var OpenpublishState = function(baseOptions) {
       }
       query.minConfirms = baseOptions.minConfirms;
     }
-    return url.format({
-      protocol: "https",
+    var builtUrl = url.format({
+      protocol: protocol,
       host: host,
       pathname: pathname,
       query: query
     });
+    return builtUrl;
   }
 
   var processOpenpublishDoc = function(doc) {
     doc.txid = doc.txid || doc.txout_tx_hash;
     return doc;
-  };
-
-  var findTransfers = function(options, callback) {
-    var sha1 = options.sha1;
-    request(buildUrl("/opendocs/sha1/" + sha1 + "/transfers"), function(err, res, body) {
-      var transfers = JSON.parse(body);
-      callback(err, transfers)
-    });
   };
 
   var findTips = function(options, callback) {
@@ -145,8 +148,7 @@ var OpenpublishState = function(baseOptions) {
     findAllTips: findAllTips,
     findDocsByUser: findDocsByUser,
     findTipsByUser: findTipsByUser,
-    findAllByType: findAllByType,
-    findTransfers: findTransfers
+    findAllByType: findAllByType
   }
 
 };

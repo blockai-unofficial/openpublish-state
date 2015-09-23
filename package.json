@@ -1,6 +1,6 @@
 {
   "name": "openpublish-state",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Request information about the state of Open Publish documents.",
   "main": "index.js",
   "scripts": {
