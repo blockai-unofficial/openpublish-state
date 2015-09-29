@@ -105,7 +105,7 @@ var OpenpublishState = function(baseOptions) {
     var address = options.address;
     request(buildUrl("/addresses/" + address + "/opendocs", options), function (err, res, body) {
       var assetsJson = JSON.parse(body);
-      if (options.includeTips) {
+      if (options.includeTips && assetsJson.length) {
         var i = 0;
         assetsJson.forEach(function (asset) {
           asset.sourceAddresses = [address];
