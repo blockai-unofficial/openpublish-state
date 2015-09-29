@@ -103,11 +103,12 @@ var OpenpublishState = function(baseOptions) {
 
   var findDocsByUser = function (options, callback) {
     var address = options.address;
-    request(buildUrl("/addresses/" + address + "/opendocs"), function (err, res, body) {
+    request(buildUrl("/addresses/" + address + "/opendocs", options), function (err, res, body) {
       var assetsJson = JSON.parse(body);
       if (options.includeTips) {
         var i = 0;
         assetsJson.forEach(function (asset) {
+          asset.sourceAddresses = [address];
           findTips({ sha1: asset.sha1 }, function (err, tipInfo) {
             asset.totalTipAmount = tipInfo.totalTipAmount;
             asset.tipCount = tipInfo.tipCount;
