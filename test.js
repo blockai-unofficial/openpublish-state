@@ -5,33 +5,35 @@ var openpublishState = require('./')({
   minConfirms: -1
 });
 
-test('should find a document with a sha1 of 2dd0b83677ac2271daab79782f0b9dcb4038d659', function(t) {
+var sha1 = "dc724af18fbdd4e59189f5fe768a5f8311527050";
+
+test('should find a document with a sha1', function(t) {
 
   openpublishState.findDoc({
-    sha1: "2dd0b83677ac2271daab79782f0b9dcb4038d659"
+    sha1: sha1
   }, function(err, openpublishDoc) {
-    t.equal(openpublishDoc.output.tx_hash, '2587d9a8662afb37fc32bfdb4914c2d08a134fd709cb7a84db08a22ca578dedf', 'txid');
+    t.equal(openpublishDoc.output.tx_hash, '268b39d77bc1f7286bf0c54553e9ee5cf5d448460656a0da6898a41fa9fab33a', 'txid');
     t.equal(openpublishDoc.sourceAddresses[0], 'msLoJikUfxbc2U5UhRSjc2svusBSqMdqxZ', 'sourceAddresses');
-    t.equal(openpublishDoc.name, 'ega_art_detail.gif', 'name');
-    t.equal(openpublishDoc.btih, '9028e4200b976662d11159c2b16a6c12ef83d967', 'btih');
-    t.equal(openpublishDoc.sha1, '2dd0b83677ac2271daab79782f0b9dcb4038d659', 'sha1');
+    t.equal(openpublishDoc.name, 'test.txt', 'name');
+    t.equal(openpublishDoc.btih, '335400c43179bb1ad0085289e4e60c0574e6252e', 'btih');
+    t.equal(openpublishDoc.sha1, 'dc724af18fbdd4e59189f5fe768a5f8311527050', 'sha1');
     t.ok(!openpublishDoc.tips, 'no tips');
     t.end();
   });
 
 });
 
-test('should find a document with a sha1 of 2dd0b83677ac2271daab79782f0b9dcb4038d659 and include the tips', function(t) {
+test('should find a document with a sha1 and include the tips', function(t) {
 
   openpublishState.findDoc({
-    sha1: "2dd0b83677ac2271daab79782f0b9dcb4038d659",
+    sha1: sha1,
     includeTips: true
   }, function(err, openpublishDoc) {
-    t.equal(openpublishDoc.output.tx_hash, '2587d9a8662afb37fc32bfdb4914c2d08a134fd709cb7a84db08a22ca578dedf', 'txid');
+    t.equal(openpublishDoc.output.tx_hash, '268b39d77bc1f7286bf0c54553e9ee5cf5d448460656a0da6898a41fa9fab33a', 'txid');
     t.equal(openpublishDoc.sourceAddresses[0], 'msLoJikUfxbc2U5UhRSjc2svusBSqMdqxZ', 'sourceAddresses');
-    t.equal(openpublishDoc.name, 'ega_art_detail.gif', 'name');
-    t.equal(openpublishDoc.btih, '9028e4200b976662d11159c2b16a6c12ef83d967', 'btih');
-    t.equal(openpublishDoc.sha1, '2dd0b83677ac2271daab79782f0b9dcb4038d659', 'sha1');
+    t.equal(openpublishDoc.name, 'test.txt', 'name');
+    t.equal(openpublishDoc.btih, '335400c43179bb1ad0085289e4e60c0574e6252e', 'btih');
+    t.equal(openpublishDoc.sha1, 'dc724af18fbdd4e59189f5fe768a5f8311527050', 'sha1');
     t.ok(openpublishDoc.tipCount > 0, 'tipCount');
     t.ok(openpublishDoc.totalTipAmount > 0, 'totalTipAmount');
     t.ok(openpublishDoc.tips.length > 0, 'tips');
@@ -52,10 +54,10 @@ test('should find a document with a sha1 of 2dd0b83677ac2271daab79782f0b9dcb4038
 
 // });
 
-test('should find the tips for a document with a sha1 of 2dd0b83677ac2271daab79782f0b9dcb4038d659', function(t) {
+test('should find the tips for a document with a sha1', function(t) {
 
   openpublishState.findTips({
-    sha1: "2dd0b83677ac2271daab79782f0b9dcb4038d659",
+    sha1: sha1,
   }, function(err, tipInfo) {
     t.ok(tipInfo.tipCount > 0, 'tipCount');
     t.ok(tipInfo.totalTipAmount > 0, 'totalTipAmount');
@@ -92,7 +94,7 @@ test('should find all open tips', function (t) {
 });
 
 test('should find all opendocs by specified user', function (t) {
-  openpublishState.findDocsByUser({address: "mjf6CRReqGSyvbgryjE3fbGjptRRfAL7cg"},
+  openpublishState.findDocsByUser({address: "msLoJikUfxbc2U5UhRSjc2svusBSqMdqxZ"},
     function (err, docs) {
       t.ok(!err, 'err is false');
       t.ok(docs.length > 0, "found some posts at this address");
@@ -109,7 +111,7 @@ test('should find all opendocs by specified user', function (t) {
 
 test('should find all opendocs and opendocs\' tips by specified user', function (t) {
   openpublishState.findDocsByUser({
-    address: "mjf6CRReqGSyvbgryjE3fbGjptRRfAL7cg",
+    address: "msLoJikUfxbc2U5UhRSjc2svusBSqMdqxZ",
     includeTips: true
   }, function (err, docs) {
     t.ok(!err, 'err is false');
@@ -128,7 +130,7 @@ test('should find all opendocs and opendocs\' tips by specified user', function 
 });
 
 test('should find all opentips for a specified user', function (t) {
-  openpublishState.findTipsByUser({address: "mjf6CRReqGSyvbgryjE3fbGjptRRfAL7cg"},
+  openpublishState.findTipsByUser({address: "msLoJikUfxbc2U5UhRSjc2svusBSqMdqxZ"},
     function(err, tips) {
       t.ok(!err, 'err is false');
       t.ok(tips.length > 0, "found some posts at this address");
@@ -176,20 +178,20 @@ test('should find 10 images that have been registered with Open Publish', functi
 
 });
 
-test('should find the transfers for a document with a sha1 of 724c0e92a180844cb4dd69903e58f173ac6de682', function(t) {
+// test('should find the transfers for a document with a sha1', function(t) {
 
-  openpublishState.findTransfers({
-    sha1: "724c0e92a180844cb4dd69903e58f173ac6de682",
-  }, function(err, transfers) {
-    t.ok(transfers.length > 0, 'transfers.length');
-    t.equal(transfers[0].opendoc_sha1, "724c0e92a180844cb4dd69903e58f173ac6de682", "opendoc_sha1");
-    t.equal(transfers[0].from, "msLoJikUfxbc2U5UhRSjc2svusBSqMdqxZ", "from");
-    t.equal(transfers[0].to, "mwaj74EideMcpe4cjieuPFpqacmpjtKSk1", "to");
-    t.equal(transfers[0].value, 50000000, "value");
-    t.equal(transfers[0].btc_value, 12345, "btc_value");
-    t.equal(transfers[0].ttl, 365, "ttl");
-    t.end();
-  });
+//   openpublishState.findTransfers({
+//     sha1: "dc724af18fbdd4e59189f5fe768a5f8311527050",
+//   }, function(err, transfers) {
+//     t.ok(transfers.length > 0, 'transfers.length');
+//     t.equal(transfers[0].opendoc_sha1, "724c0e92a180844cb4dd69903e58f173ac6de682", "opendoc_sha1");
+//     t.equal(transfers[0].from, "msLoJikUfxbc2U5UhRSjc2svusBSqMdqxZ", "from");
+//     t.equal(transfers[0].to, "mwaj74EideMcpe4cjieuPFpqacmpjtKSk1", "to");
+//     t.equal(transfers[0].value, 50000000, "value");
+//     t.equal(transfers[0].btc_value, 12345, "btc_value");
+//     t.equal(transfers[0].ttl, 365, "ttl");
+//     t.end();
+//   });
 
-});
+// });
 

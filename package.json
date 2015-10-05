@@ -1,6 +1,6 @@
 {
   "name": "openpublish-state",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Request information about the state of Open Publish documents.",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,8 @@
   },
   "dependencies": {
     "browser-request": "^0.3.3",
-    "request": "^2.61.0",
+    "request": "^2.64.0",
+    "tape": "^4.2.1",
     "url": "^0.11.0"
   },
   "browser": {

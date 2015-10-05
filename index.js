@@ -35,6 +35,7 @@ var OpenpublishState = function(baseOptions) {
 
   var processOpenpublishDoc = function(doc) {
     doc.txid = doc.txid || doc.txout_tx_hash;
+    doc.network = network;
     return doc;
   };
 
@@ -104,23 +105,24 @@ var OpenpublishState = function(baseOptions) {
   var findDocsByUser = function (options, callback) {
     var address = options.address;
     request(buildUrl("/addresses/" + address + "/opendocs", options), function (err, res, body) {
-      var assetsJson = JSON.parse(body);
-      if (options.includeTips && assetsJson.length) {
+      var openpublishDocuments = JSON.parse(body);
+      if (options.includeTips && openpublishDocuments.length) {
         var i = 0;
-        assetsJson.forEach(function (asset) {
-          asset.sourceAddresses = [address];
-          findTips({ sha1: asset.sha1 }, function (err, tipInfo) {
-            asset.totalTipAmount = tipInfo.totalTipAmount;
-            asset.tipCount = tipInfo.tipCount;
-            asset.tips = tipInfo.tips;
-            if (++i === assetsJson.length) {
-              callback(err, assetsJson);
+        openpublishDocuments.forEach(function (openpublishDoc) {
+          processOpenpublishDoc(openpublishDoc);
+          openpublishDoc.sourceAddresses = [address];
+          findTips({ sha1: openpublishDoc.sha1 }, function (err, tipInfo) {
+            openpublishDoc.totalTipAmount = tipInfo.totalTipAmount;
+            openpublishDoc.tipCount = tipInfo.tipCount;
+            openpublishDoc.tips = tipInfo.tips;
+            if (++i === openpublishDocuments.length) {
+              callback(err, openpublishDocuments);
             }
           });
         });
       }
       else {
-        callback(err, assetsJson);
+        callback(err, openpublishDocuments);
       }
     });
   }
